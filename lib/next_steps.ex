@@ -9,6 +9,7 @@ defmodule NextSteps do
     resource(__MODULE__.User)
     resource(__MODULE__.BrokerageAccount)
     resource(__MODULE__.Dependent529)
+    resource(__MODULE__.EmergencySaving)
     resource(__MODULE__.HealthSavingsAccount)
     resource(__MODULE__.Retirement401k)
     resource(__MODULE__.Retirement401kAnnualLimit)
