@@ -16,13 +16,15 @@ defmodule NextSteps.TaxFilingStatus do
     uuid_v7_primary_key(:id)
 
     attribute(:status, :atom) do
-      constraints(one_of: [
-        :single,
-        :married_filing_jointly,
-        :married_filing_separately,
-        :head_of_household,
-        :qualifying_widow_widower
-      ])
+      constraints(
+        one_of: [
+          :single,
+          :married_filing_jointly,
+          :married_filing_separately,
+          :head_of_household,
+          :qualifying_widow_widower
+        ]
+      )
     end
 
     attribute(:description, :string)
