@@ -7,6 +7,8 @@
 # General application configuration
 import Config
 
+config :next_steps, ash_domains: [NextSteps]
+
 config :next_steps,
   ecto_repos: [NextSteps.Repo],
   generators: [timestamp_type: :utc_datetime]
