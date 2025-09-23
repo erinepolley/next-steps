@@ -15,6 +15,7 @@ defmodule NextSteps do
     resource(__MODULE__.Retirement401kAnnualLimit)
     resource(__MODULE__.RetirementIraLimit)
     resource(__MODULE__.RetirementRothIra)
+    resource(__MODULE__.ReturnInput)
     resource(__MODULE__.TaxBracket)
     resource(__MODULE__.TaxDeduction)
     resource(__MODULE__.TaxFilingStatus)
