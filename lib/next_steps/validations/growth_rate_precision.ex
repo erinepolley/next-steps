@@ -1,12 +1,18 @@
 defmodule NextSteps.Validations.GrowthRatePrecision do
+  @moduledoc """
+  This validation ensures that the annual rate of return does not have more than
+  two decimal places. Having a larger precision isn't a big deal in reality--the
+  calculation would still function no matter what the precision--but the real
+  purpose is I wanted to try creating a custom validation in Ash.
+  """
   use Ash.Resource.Validation
 
   @impl true
   def init(opts) do
-    if opts[:attribute] != nil && is_atom(opts[:attribute]) do
+    if !is_nil(opts[:annual_rate_of_return]) && is_atom(opts[:annual_rate_of_return]) do
       {:ok, opts}
     else
-      {:error, "attribute must be an atom!"}
+      {:error, "annual rate of return must be an atom!"}
     end
   end
 
@@ -14,23 +20,17 @@ defmodule NextSteps.Validations.GrowthRatePrecision do
   def validate(%{valid?: false} = _changeset, _opts, _context), do: :ok
 
   def validate(changeset, opts, _context) do
-    case Ash.Changeset.get_attribute(changeset, opts[:attribute]) do
-      # If growth rate precision is missing, the required validation will catch it after this
+    case Ash.Changeset.get_attribute(changeset, opts[:annual_rate_of_return]) do
+      # If growth rate precision attr is missing, the required validation will catch it after this
       nil ->
         :ok
 
       growth_rate ->
-        decimal_places =
-          growth_rate
-          |> Float.to_string()
-          |> String.split(".")
-          |> List.last()
-          |> String.length()
-
-        if decimal_places <= 2 do
+        if Decimal.scale(growth_rate) <= 2 do
           :ok
         else
-          {:error, field: opts[:attribute], message: "cannot have more than 2 decimal places"}
+          {:error,
+           field: opts[:annual_rate_of_return], message: "cannot have more than 2 decimal places"}
         end
     end
   end

@@ -1,11 +1,16 @@
 defmodule ReturnCalculator do
+  @moduledoc """
+  This module calculates an investment's future value, given a
+  starting amount, annual contribution, annual rate of return, and number of
+  years.
+  """
   alias NextSteps.ReturnInput
 
   def calculate_return(
         # %{
         #   starting_amount: starting_amount,
         #   annual_contribution: annual_contribution,
-        #   annual_growth_rate: annual_growth_rate,
+        #   annual_rate_of_return: annual_rate_of_return,
         #   years: years
         # } = return_input_attrs
         # ) do
@@ -24,15 +29,40 @@ defmodule ReturnCalculator do
          %{
            starting_amount: starting_amount,
            annual_contribution: annual_contribution,
-           annual_growth_rate: annual_growth_rate,
+           annual_rate_of_return: annual_rate_of_return,
            years: years
          } = _changeset
        ) do
-    future_value =
-      starting_amount * :math.pow(1 + annual_growth_rate, years) +
-        annual_contribution *
-          ((:math.pow(1 + annual_growth_rate, years) - 1) / annual_growth_rate)
+    interest_rate = calculate_interest_rate(annual_rate_of_return, years)
 
-    Float.round(future_value, 0)
+    total_future_value =
+      calculate_starting_amount_value(starting_amount, interest_rate) +
+        calculate_annual_contribution_value(
+          annual_contribution,
+          interest_rate,
+          annual_rate_of_return
+        )
+
+    Float.round(total_future_value, 0)
+  end
+
+  defp calculate_annual_contribution_value(
+         annual_contribution,
+         interest_rate,
+         annual_rate_of_return
+       ) do
+    annual_contribution *
+      ((interest_rate - 1) / Decimal.to_float(annual_rate_of_return))
+  end
+
+  defp calculate_interest_rate(annual_rate_of_return, years) do
+    1
+    |> Decimal.add(annual_rate_of_return)
+    |> Decimal.to_float()
+    |> :math.pow(years)
+  end
+
+  defp calculate_starting_amount_value(starting_amount, interest_rate) do
+    starting_amount * interest_rate
   end
 end
