@@ -5,7 +5,7 @@ defmodule ReturnCalculatorTest do
   @valid_attrs %{
     starting_amount: 10_000,
     annual_contribution: 5_000,
-    annual_growth_rate: 0.07,
+    annual_rate_of_return: 0.07,
     years: 20
   }
 
@@ -17,10 +17,10 @@ defmodule ReturnCalculatorTest do
   test "returns error if invalid growth rate precision" do
     changeset =
       @valid_attrs
-      |> Map.put(:annual_growth_rate, 0.0275)
+      |> Map.put(:annual_rate_of_return, 0.0275)
       |> ReturnCalculator.calculate_return()
 
-    assert error_message_on_field(changeset, :annual_growth_rate) ==
+    assert error_message_on_field(changeset, :annual_rate_of_return) ==
              "cannot have more than 2 decimal places"
   end
 
@@ -37,10 +37,10 @@ defmodule ReturnCalculatorTest do
   test "returns error if missing attr" do
     %{errors: [%Ash.Error.Changes.Required{} = error_struct]} =
       @valid_attrs
-      |> Map.delete(:annual_growth_rate)
+      |> Map.delete(:annual_rate_of_return)
       |> ReturnCalculator.calculate_return()
 
-    assert error_struct.field == :annual_growth_rate
+    assert error_struct.field == :annual_rate_of_return
   end
 
   defp error_message_on_field(%{valid?: true}, _field), do: nil

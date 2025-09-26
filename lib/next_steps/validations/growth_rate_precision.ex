@@ -3,10 +3,10 @@ defmodule NextSteps.Validations.GrowthRatePrecision do
 
   @impl true
   def init(opts) do
-    if opts[:attribute] != nil && is_atom(opts[:attribute]) do
+    if !is_nil(opts[:annual_rate_of_return]) && is_atom(opts[:annual_rate_of_return]) do
       {:ok, opts}
     else
-      {:error, "attribute must be an atom!"}
+      {:error, "annual rate of return must be an atom!"}
     end
   end
 
@@ -14,7 +14,7 @@ defmodule NextSteps.Validations.GrowthRatePrecision do
   def validate(%{valid?: false} = _changeset, _opts, _context), do: :ok
 
   def validate(changeset, opts, _context) do
-    case Ash.Changeset.get_attribute(changeset, opts[:attribute]) do
+    case Ash.Changeset.get_attribute(changeset, opts[:annual_rate_of_return]) do
       # If growth rate precision is missing, the required validation will catch it after this
       nil ->
         :ok
@@ -30,7 +30,8 @@ defmodule NextSteps.Validations.GrowthRatePrecision do
         if decimal_places <= 2 do
           :ok
         else
-          {:error, field: opts[:attribute], message: "cannot have more than 2 decimal places"}
+          {:error,
+           field: opts[:annual_rate_of_return], message: "cannot have more than 2 decimal places"}
         end
     end
   end

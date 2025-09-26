@@ -14,7 +14,7 @@ defmodule NextSteps.ReturnInput do
       allow_nil?(false)
     end
 
-    attribute :annual_growth_rate, :float do
+    attribute :annual_rate_of_return, :float do
       allow_nil?(false)
     end
 
@@ -29,14 +29,14 @@ defmodule NextSteps.ReturnInput do
 
   validations do
     validate(compare(:annual_contribution, greater_than_or_equal_to: 0))
-    validate(compare(:annual_growth_rate, greater_than_or_equal_to: 0))
+    validate(compare(:annual_rate_of_return, greater_than_or_equal_to: 0))
     validate(compare(:starting_amount, greater_than_or_equal_to: 0))
     validate(compare(:years, greater_than_or_equal_to: 1))
-    validate({GrowthRatePrecision, attribute: :annual_growth_rate})
+    validate({GrowthRatePrecision, annual_rate_of_return: :annual_rate_of_return})
   end
 
   actions do
-    default_accept([:annual_contribution, :annual_growth_rate, :starting_amount, :years])
+    default_accept([:annual_contribution, :annual_rate_of_return, :starting_amount, :years])
 
     create :create do
       primary?(true)

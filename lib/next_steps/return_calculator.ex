@@ -5,7 +5,7 @@ defmodule ReturnCalculator do
         # %{
         #   starting_amount: starting_amount,
         #   annual_contribution: annual_contribution,
-        #   annual_growth_rate: annual_growth_rate,
+        #   annual_rate_of_return: annual_rate_of_return,
         #   years: years
         # } = return_input_attrs
         # ) do
@@ -24,14 +24,16 @@ defmodule ReturnCalculator do
          %{
            starting_amount: starting_amount,
            annual_contribution: annual_contribution,
-           annual_growth_rate: annual_growth_rate,
+           annual_rate_of_return: annual_rate_of_return,
            years: years
          } = _changeset
        ) do
+    interest_rate = :math.pow(1 + annual_rate_of_return, years)
+
     future_value =
-      starting_amount * :math.pow(1 + annual_growth_rate, years) +
+      starting_amount * interest_rate +
         annual_contribution *
-          ((:math.pow(1 + annual_growth_rate, years) - 1) / annual_growth_rate)
+          ((interest_rate - 1) / annual_rate_of_return)
 
     Float.round(future_value, 0)
   end
