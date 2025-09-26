@@ -14,7 +14,7 @@ defmodule NextSteps.ReturnInput do
       allow_nil?(false)
     end
 
-    attribute :annual_rate_of_return, :float do
+    attribute :annual_rate_of_return, :decimal do
       allow_nil?(false)
     end
 

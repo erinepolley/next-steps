@@ -28,13 +28,36 @@ defmodule ReturnCalculator do
            years: years
          } = _changeset
        ) do
-    interest_rate = :math.pow(1 + annual_rate_of_return, years)
+    interest_rate = calculate_interest_rate(annual_rate_of_return, years)
 
     future_value =
-      starting_amount * interest_rate +
-        annual_contribution *
-          ((interest_rate - 1) / annual_rate_of_return)
+      calculate_starting_amount_value(starting_amount, interest_rate) +
+        calculate_annual_contribution_value(
+          annual_contribution,
+          interest_rate,
+          annual_rate_of_return
+        )
 
     Float.round(future_value, 0)
+  end
+
+  defp calculate_annual_contribution_value(
+         annual_contribution,
+         interest_rate,
+         annual_rate_of_return
+       ) do
+    annual_contribution *
+      ((interest_rate - 1) / Decimal.to_float(annual_rate_of_return))
+  end
+
+  defp calculate_interest_rate(annual_rate_of_return, years) do
+    1
+    |> Decimal.add(annual_rate_of_return)
+    |> Decimal.to_float()
+    |> :math.pow(years)
+  end
+
+  defp calculate_starting_amount_value(starting_amount, interest_rate) do
+    starting_amount * interest_rate
   end
 end

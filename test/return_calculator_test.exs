@@ -5,7 +5,7 @@ defmodule ReturnCalculatorTest do
   @valid_attrs %{
     starting_amount: 10_000,
     annual_contribution: 5_000,
-    annual_rate_of_return: 0.07,
+    annual_rate_of_return: Decimal.new("0.07"),
     years: 20
   }
 
