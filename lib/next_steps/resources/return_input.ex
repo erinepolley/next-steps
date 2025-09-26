@@ -1,4 +1,8 @@
 defmodule NextSteps.ReturnInput do
+  @moduledoc """
+  This is an ephemeral resource to validate the input for the investment return
+  calculation widget.
+  """
   use Ash.Resource,
     data_layer: Ash.DataLayer.Simple,
     domain: NextSteps

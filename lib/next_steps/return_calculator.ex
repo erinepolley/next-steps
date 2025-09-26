@@ -1,4 +1,9 @@
 defmodule ReturnCalculator do
+  @moduledoc """
+  This module calculates an investment's future value, given a
+  starting amount, annual contribution, annual rate of return, and number of
+  years.
+  """
   alias NextSteps.ReturnInput
 
   def calculate_return(
@@ -30,7 +35,7 @@ defmodule ReturnCalculator do
        ) do
     interest_rate = calculate_interest_rate(annual_rate_of_return, years)
 
-    future_value =
+    total_future_value =
       calculate_starting_amount_value(starting_amount, interest_rate) +
         calculate_annual_contribution_value(
           annual_contribution,
@@ -38,7 +43,7 @@ defmodule ReturnCalculator do
           annual_rate_of_return
         )
 
-    Float.round(future_value, 0)
+    Float.round(total_future_value, 0)
   end
 
   defp calculate_annual_contribution_value(

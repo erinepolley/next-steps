@@ -1,4 +1,10 @@
 defmodule NextSteps.Validations.GrowthRatePrecision do
+  @moduledoc """
+  This validation ensures that the annual rate of return does not have more than
+  two decimal places. Having a larger precision isn't a big deal in reality--the
+  calculation would still function no matter what the precision--but the real
+  purpose is I wanted to try creating a custom validation in Ash.
+  """
   use Ash.Resource.Validation
 
   @impl true
